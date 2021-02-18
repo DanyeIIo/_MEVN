@@ -1,12 +1,12 @@
 <template>
     <div>
         <div v-for="(user,index) in users" :key="user.id">
-            <GetUsers/>
             <p>{{ user.name }}</p>
             <p>{{ user.age }}</p>
-            <input type="text" v-model="user.name" maxlength="22"> <!--v-on:change = "changeUser(index)"-->
-            <input type="text" v-model="user.age" maxlength="2" > <!--v-on:change = "changeUser(index)"-->
+            <button class="waves-effect green lighten-2 btn" type="button" @click="deleteUser(index)" style="align-items: center;margin-left: 10rem;">Delete</button>
             <button class="waves-effect green lighten-2 btn" type="button" @click="changeUser(index)" style="align-items: center;margin-left: 10rem;">Change</button>
+            <input type="text" v-model ="user.name" maxlength="22" >
+            <input type="text" v-model ="user.age" maxlength="2">
         </div>
   </div>
 </template>
@@ -16,32 +16,23 @@
 // import 'bootstrap/dist/css/bootstrap.css';
 // import 'bootstrap-vue/dist/bootstrap-vue.css';
 import { mapState } from "vuex";
-import GetUsers from '@/components/GetUsers.vue'
 // import GetUsers from '@/components/GetUsers.vue'
 // import func   from '../../vue-temp/vue-editor-bridge';
 //import { new_store } from "../store/index";
-
 export default {
-  name: "ChangeUser",
-  components: {
-    GetUsers,
-  },
+  name: "DeleteChangeUser",
     computed:mapState({
     users: state => state.users
   }),
   mounted() {
-    this.$store.dispatch('getPosts'); // самый обычный axios
+    this.$store.dispatch('getPosts');
   },
   methods: {
+      async deleteUser(index) {
+        this.$store.dispatch('deleteUser',index);
+      },
       async changeUser(index) {
-        // // alert(this.$store.state.users[index].name + "\n" + this.users.age);//
-        this.$store.dispatch('changeUser',index); // самый обычный axios
-        // const {data ,status} = await app.put('users/'+ id,this.users[index]);
-        // this.$store.dispatch('getPosts');
-        // console.log(data);
-        // console.log(status);
-        // this.addUser.name = '',
-        // this.addUser.name = ''
+        this.$store.dispatch('changeUser',index); 
       }
   }
 };

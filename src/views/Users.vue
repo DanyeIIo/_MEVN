@@ -1,21 +1,20 @@
 <template>
   <div>
-    <div v-for="user in users" :key="user.id">
-      <GetUsers/>
-      <p>{{ user.name }}</p>
-      <p>{{ user.age }}</p>
-    </div>
+    <CreateUser/>
+    <DeleteChangeUser/>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import GetUsers from '@/components/GetUsers.vue'
+import DeleteChangeUser from '@/components/DeleteChangeUser.vue';
+import CreateUser from '@/components/CreateUser.vue';
 //import { new_store } from "../store/index";
 export default {
   name: "",
   components: {
-    GetUsers,
+    CreateUser,
+    DeleteChangeUser,
   },
   computed:mapState({
     users: state => state.users
