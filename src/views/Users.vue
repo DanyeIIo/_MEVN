@@ -13,7 +13,7 @@ import { mapState } from "vuex";
 import GetUsers from '@/components/GetUsers.vue'
 //import { new_store } from "../store/index";
 export default {
-  name: "Users",
+  name: "",
   components: {
     GetUsers,
   },

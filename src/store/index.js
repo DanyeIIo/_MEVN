@@ -11,6 +11,7 @@ export default new Vuex.Store({
     users: [], 
     changeUserBack: {name: null,age: '-' },
   },
+  
   // data() {
   //   return {
       
