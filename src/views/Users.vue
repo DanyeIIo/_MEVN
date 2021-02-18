@@ -9,7 +9,6 @@
 import { mapState } from "vuex";
 import DeleteChangeUser from '@/components/DeleteChangeUser.vue';
 import CreateUser from '@/components/CreateUser.vue';
-//import { new_store } from "../store/index";
 export default {
   name: "",
   components: {
@@ -20,7 +19,7 @@ export default {
     users: state => state.users
   }),
   mounted() {
-    this.$store.dispatch('getPosts'); // самый обычный axios
+    this.$store.dispatch('getPosts');
   }
 };
 </script>
