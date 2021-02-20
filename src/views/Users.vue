@@ -1,29 +1,31 @@
 <template>
-  <div>
-    <CreateUser/>
-    <DeleteChangeUser/>
+  <div class ="page">
+      <div v-for="(user) in users" :key="user.id">
+        <p>{{ user.email }}</p>
+        <p>{{ user.nickname }}</p>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
-import DeleteChangeUser from '@/components/DeleteChangeUser.vue';
-import CreateUser from '@/components/CreateUser.vue';
 //import { new_store } from "../store/index";
 export default {
   name: "",
   components: {
-    CreateUser,
-    DeleteChangeUser,
   },
   computed:mapState({
     users: state => state.users
   }),
   mounted() {
+    console.log(this.$appName);
     this.$store.dispatch('getPosts'); // самый обычный axios
   }
 };
 </script>
 <style scoped>
-
+.page {
+  background: gray;
+  width: 100%;
+}
 </style>

@@ -9,7 +9,8 @@ const app = new axios.create({
 export default new Vuex.Store({
   state: {
     users: [], 
-    changeUserBack: {name: null,age: '-' },
+    changeUserBack: {email: null, nickname: null },
+    loginUser: {email: null, password: null }
   },
   
   // data() {
@@ -22,7 +23,7 @@ export default new Vuex.Store({
     {
       state.users = payload;
     },
-    POST_STATUS(state,payload)
+    CREATE_STATUS(state,payload)
     {
       //state.createUser = payload;
       state.users.push(payload);
@@ -33,9 +34,12 @@ export default new Vuex.Store({
     },
     CHANGE_STATUS(state,payload)
     {
-      state.users[payload].name = state.changeUserBack.name;
-      state.users[payload].age = state.changeUserBack.age;
-    }
+      state.users[payload].email = state.changeUserBack.email;
+      state.users[payload].nickname = state.changeUserBack.nickname;
+    },
+    // LOGIN_STATUS(state,payload) {
+      
+    // }
   },
   actions: {
     async getPosts({ commit }) {
@@ -43,11 +47,13 @@ export default new Vuex.Store({
       console.log(status);
       commit('GET_STATUS',data);
     },
-    async addUser({ commit },user) {
+    async createUser({ commit },user) {
       // if(user.name)
       const {status} = await app.post('users', user);
       console.log(status);
-      commit('POST_STATUS',user);
+      if(status === 201) {
+        commit('CREATE_STATUS',user);
+      }
     },
     async deleteUser({ commit,state},userIndex) {
       const userID = state.users[userIndex]._id;
@@ -60,12 +66,18 @@ export default new Vuex.Store({
       const userID = state.users[userIndex]._id;
       const {status,data} = await app.put('users/' + userID, state.users[userIndex]);
       if(status === 201) {
-        state.changeUserBack.name = data.name;
-        state.changeUserBack.age = data.age;
+        state.changeUserBack.email = data.email;
+        state.changeUserBack.nickname = data.nickname;
         commit('CHANGE_STATUS', userIndex);
       } 
+    },
+    async login({commit}, data) {
+      // state.loginUser = data;
+      const {status} = await app.post('users/' + data.loginUser.email,data.loginUser.password)
+      if(status === 201) {
+        commit('LOGIN_STATUS', data);
+      }
     }
-
       // commit('CHANGE_STATUS',userIndex)
     // async changeUser({ commit }) {
     // }
