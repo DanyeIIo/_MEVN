@@ -9,8 +9,9 @@ const app = new axios.create({
 export default new Vuex.Store({
   state: {
     users: [], 
-    changeUserBack: {email: null, nickname: null },
-    loginUser: {email: null, password: null }
+    changeUser: {email:null,nickname: null,password: null, oldUserEmail: null },
+    changedUser: {email:null,nickname: null,password: null},
+    loginDeleteUser: {email: null, password: null },
   },
   
   // data() {
@@ -28,14 +29,23 @@ export default new Vuex.Store({
       //state.createUser = payload;
       state.users.push(payload);
     },
-    DELETE_STATUS(state,payload)
+    DELETE_STATUS(state)
     {
-      state.users.splice(payload,1);
+      let index = state.users.indexOf({email: state.loginDeleteUser.email});
+      if(index !==-1 ) {
+        state.users.splice(index,1);
+      }
     },
-    CHANGE_STATUS(state,payload)
+    CHANGE_STATUS(state)
     {
-      state.users[payload].email = state.changeUserBack.email;
-      state.users[payload].nickname = state.changeUserBack.nickname;
+      state.users.forEach(e => {
+        if(e.email == state.changeUser.oldUserEmail) {
+          e.email = state.changedUser.email;
+          e.nickname = state.changedUser.nickname;
+          e.password = state.changedUser.password;
+        }
+      })
+      // state.users[payload].nickname = state.changeUserBack.nickname;
     },
     // LOGIN_STATUS(state,payload) {
       
@@ -47,35 +57,43 @@ export default new Vuex.Store({
       console.log(status);
       commit('GET_STATUS',data);
     },
-    async createUser({ commit },user) {
+    async createUser({ commit,state },user) {
       // if(user.name)
+      state.message = "Fuck you";
       const {status} = await app.post('users', user);
       console.log(status);
       if(status === 201) {
         commit('CREATE_STATUS',user);
       }
     },
-    async deleteUser({ commit,state},userIndex) {
-      const userID = state.users[userIndex]._id;
-      const {status} = await app.delete('users/' + userID);
+    async removeUser({commit,state},user) {
+      state.loginDeleteUser = await user;
+      console.log(state.loginDeleteUser.email);
+      const {status} = await app.delete('users',await user);
       console.log(status);
-      commit('DELETE_STATUS',userIndex);
-      
-    },
-    async changeUser({commit,state},userIndex) {
-      const userID = state.users[userIndex]._id;
-      const {status,data} = await app.put('users/' + userID, state.users[userIndex]);
       if(status === 201) {
-        state.changeUserBack.email = data.email;
-        state.changeUserBack.nickname = data.nickname;
-        commit('CHANGE_STATUS', userIndex);
+        commit('DELETE_STATUS');
+        alert("success remove!");
+      }
+      else {
+        alert("Invalid data!"); 
+      }
+    },
+    async changeUser({commit,state},newUser) {
+      
+      const {status,data} = await app.put('users',newUser);
+      if(status === 201) {
+        state.changeUser = newUser;
+        state.changedUser = data;
+        alert(state.changedUser);
+        commit('CHANGE_STATUS');
       } 
     },
     async login({commit}, data) {
       // state.loginUser = data;
       const {status} = await app.post('users/' + data.loginUser.email,data.loginUser.password)
       if(status === 201) {
-        commit('LOGIN_STATUS', data);
+        commit('LOGIN_STATUS');
       }
     }
       // commit('CHANGE_STATUS',userIndex)

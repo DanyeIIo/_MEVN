@@ -7,7 +7,7 @@
         <li><a><router-link to="/CreateUser">Create user</router-link></a></li>
         <li><a><router-link to="/ChangeUser">Change user</router-link></a></li>
         <li><a><router-link to="/RemoveUser">Remove user</router-link></a></li>
-        <li><a><router-link to="/RemoveUser">Todo list</router-link></a></li>
+        <li><a><router-link to="/TodoList">Todo list</router-link></a></li>
       </ul>
     </nav>
     <router-view/>
@@ -15,15 +15,11 @@
 </template>
 <script>
 
-import Vue from 'vue';
 // import BootstrapVue from "bootstrap-vue"
 // import 'bootstrap/dist/css/bootstrap.css';
 // import 'bootstrap-vue/dist/bootstrap-vue.css';
 // Vue.use(BootstrapVue);
-Vue.prototype.$appName = 'Моё приложение';
-export default {
-  name: "App",  
-  }
+
 
 </script>
 <style>

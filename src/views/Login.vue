@@ -12,16 +12,20 @@
     </div> 
 </template>
 <script>
-import Vue from 'vue'
-import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import Vue from 'vue';
+import BootstrapVue from 'bootstrap-vue';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+// import mapState from 'vuex';
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
 export default {
   name: "CreateUser", 
   components: {
   },
+//   computed:mapState({
+//     message: "hi",
+//   }),
   data: () => {
       return {sign: {email:null,password: null }}
   },
