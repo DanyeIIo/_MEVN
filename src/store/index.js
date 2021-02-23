@@ -73,7 +73,7 @@ export default new Vuex.Store({
       console.log(status);
       if(status === 201) {
         commit('DELETE_STATUS');
-        alert("success remove!");
+        alert("success remove!"); 
       }
       else {
         alert("Invalid data!"); 
