@@ -21,7 +21,7 @@ export default {
   },
   computed:mapState({
     users: state => state.users,
-    message: state => state.message
+    // message: state => state.message
   }),
   mounted() {
     this.$store.dispatch('getPosts'); // самый обычный axios
@@ -53,7 +53,9 @@ export default {
 }
 .p:hover
 {
+    background-color: lightpink;
     margin:20px 35px;
-    transform: scale(1.25);
+    transform: scale(1.05);
+
 }
 </style>
